@@ -1,6 +1,6 @@
 # XHR Override Demo
 
-This is a test of hijacking XMLHttpRequest, allowing us to redirect traffic from all AJAX requests, regardless of method (with the exception of fetch...)
+This is a test of hijacking XMLHttpRequest, allowing us to redirect traffic from all AJAX requests, regardless of method. Fetch is defined at a native level, so it has to be hijacked seperately.
 
 ## Use
 Install dependencies
