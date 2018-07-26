@@ -2,7 +2,7 @@
 
 This is a test of hijacking XMLHttpRequest, allowing us to redirect traffic from all AJAX requests, regardless of method (with the exception of fetch...)
 
-# Use
+## Use
 Install dependencies
 ```
 npm install
