@@ -11,12 +11,12 @@
 	}
 })(XMLHttpRequest.prototype.open);
 
-//trying the same with fetch, doesn't currently work
+//doing the same with fetch just involves adding a return in front of the call
 (function(fetch) {
 
 	window.fetch = function(input, init) {
 		console.log('xhr spy is working');
-		const newUrl = 'http://localhost:9999/report'
-		fetch.call(this, input, init);
+		const newInput = 'http://localhost:9999/report'
+		return fetch.call(this, newInput, init);
 	}
 })(window.fetch);
