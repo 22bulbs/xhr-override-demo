@@ -72,7 +72,7 @@ const spyUrl = 'http://localhost:9999/report';
 (function(fetch) {
 
   window.fetch = function(input, init) {
-    console.log('xhr spy is working');
+    console.log('xhr spy is working: fetch', init);
     const defaults = {
       method: 'GET',
       mode: 'same-origin',
@@ -84,7 +84,17 @@ const spyUrl = 'http://localhost:9999/report';
     };
     const requestInfo = {};
     requestInfo.url = input;
-    requestInfo.options = init ? init : defaults;
+    const mergedInit = init ? init : {};
+    for (let prop in defaults) {
+      if (!mergedInit.hasOwnProperty(prop)) {
+        mergedInit[prop] = defaults[prop];
+      }
+    }
+     if (init && init.body) {
+      requestInfo.data = init.body;
+      delete mergedInit.body;
+    }
+    requestInfo.options = mergedInit;
     const newInit = {
       method: 'POST',
       headers: {
@@ -92,6 +102,7 @@ const spyUrl = 'http://localhost:9999/report';
       },
       body: JSON.stringify(requestInfo)
     }
+    console.log(requestInfo);
     return fetch.call(this, spyUrl, newInit);
   }
 })(window.fetch);
