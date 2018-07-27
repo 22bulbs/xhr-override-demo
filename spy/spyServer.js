@@ -3,6 +3,7 @@
 const express = require('express');
 const bodyparser = require('body-parser');
 const cookieParser = require('cookie-parser');
+const request = require('request');
 
 const spyController = require('./spyController');
 
@@ -18,7 +19,12 @@ app.use(function(req, res, next) {
 });
 
 app.get('/report', 
-	spyController.report
+	spyController.reply
+);
+
+app.post('/report', 
+	spyController.report,
+	spyController.redirect
 );
 
 
