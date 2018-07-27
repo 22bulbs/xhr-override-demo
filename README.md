@@ -20,3 +20,8 @@ npm start
 
 Point your browser to localhost/3000 and test the app, then open app/client/index.html and uncomment the spy script.
 Reload the page and try again.
+
+
+### Use in Other Apps
+
+Copy spy.js  from the root of this directory into your app and include it as a script tag at the beginning of the <head> of your index.html
