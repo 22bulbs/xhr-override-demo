@@ -24,4 +24,4 @@ Reload the page and try again.
 
 ### Use in Other Apps
 
-Copy spy.js  from the root of this directory into your app and include it as a script tag at the beginning of the <head> of your index.html
+Copy spy.js  from the root of this directory into your app and include it as a script tag at the beginning of the 'head' tag of your index.html file.
