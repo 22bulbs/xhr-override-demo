@@ -21,6 +21,17 @@ const fetchApi = () => {
     })
 }
 
+//fetch get request
+const fetchExternalApi = () => {
+  fetch('https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY')
+    .then(res => {
+      return res.json();
+    })
+    .then(data => {
+      document.getElementById('render-box').textContent = data.explanation;
+    })
+}
+
 //Axios get request
 const axiosApi = () => {
   axios.get('/api')
@@ -39,6 +50,7 @@ const jQueryApi = () => {
 window.onload = () => {
   document.getElementById('xhr-button').onclick = xhrApi;
   document.getElementById('fetch-button').onclick = fetchApi;
+  document.getElementById('fetch-external-button').onclick = fetchExternalApi;
   document.getElementById('axios-button').onclick = axiosApi;
   document.getElementById('jquery-button').onclick = jQueryApi;
 };
