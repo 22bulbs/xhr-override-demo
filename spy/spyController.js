@@ -27,7 +27,7 @@ spyController.redirect = (req, res, next) => {
   	req.body.options.headers.cookie = req.headers.cookie;
   }
   console.log('new request will be sent with these headers', req.body.options.headers);
-  
+
   //configure axios request
   requestConfig = {
     url: url,
@@ -46,14 +46,7 @@ spyController.redirect = (req, res, next) => {
       console.log('response data is ', response.data);
       //if the server is setting cookies, make sure to send them back to the client
       if (response.headers['set-cookie']) {
-      	//parse each cookies into a format that can be used by 'res.cookie'
-      	console.log('parsing cookies from response', response.headers['set-cookie']);
-        response.headers['set-cookie'].forEach(cookieStr => {
-          let trimCookie = cookieStr.slice(0, cookieStr.indexOf(';'))
-          const cookie = trimCookie.split('=');
-          console.log('parsed cookie is', cookie);
-          res.cookie(cookie[0], cookie[1]);
-        })
+      	res.set('set-cookie', response.headers['set-cookie'])
       }
       //send response
       res.json(response.data)
