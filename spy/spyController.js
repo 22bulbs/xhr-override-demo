@@ -27,6 +27,7 @@ spyController.redirect = (req, res, next) => {
   	req.body.options.headers.cookie = req.headers.cookie;
   }
   console.log('new request will be sent with these headers', req.body.options.headers);
+  
   //configure axios request
   requestConfig = {
     url: url,
