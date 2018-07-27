@@ -30,11 +30,15 @@ const spyUrl = 'http://localhost:9999/report';
     if (!this.requestInfo.options.headers) {
       this.setRequestHeader("Accept", "*/*")
     } else if (!this.requestInfo.options.headers.Accept) {
-    	this.setRequestHeader("Accept", "*/*")
+      this.setRequestHeader("Accept", "*/*")
     }
-    this.setRequestHeader("Content-Type", "application/json", true)
+    //look closer at this! this is a hacky solution and should be changed!!!!!
+    if (!this.requestInfo.options.headers['Content-Type']){
+      this.setRequestHeader("Content-Type", "application/json", true)
+    }
+    if (data) this.requestInfo.data = data;
     const requestInfo = JSON.stringify(this.requestInfo);
-    console.log(this);
+    console.log('xhr spy is working: sending', this);
     send.call(this, requestInfo);
   }
 })(XMLHttpRequest.prototype.send);
@@ -42,14 +46,14 @@ const spyUrl = 'http://localhost:9999/report';
 //to keep track of the XMLHttpRequest's headers, we'll have to hijack the .setRequestHeader
 (function(setRequestHeader) {
 
-	//reassigns XMLHttpRequest prototype's setRequestHeader method to a new function that takes all the same args, with the addition of an override
-	//override is used so that when we add a "Content-Type": "application/json" header to send to our server, we don't add it to the list of 'actual' headers being added by the app
+  //reassigns XMLHttpRequest prototype's setRequestHeader method to a new function that takes all the same args, with the addition of an override
+  //override is used so that when we add a "Content-Type": "application/json" header to send to our server, we don't add it to the list of 'actual' headers being added by the app
   XMLHttpRequest.prototype.setRequestHeader = function(header, value, override) {
-  	//if override is included, add the header to the request without recording it to our requestInfo
+    //if override is included, add the header to the request without recording it to our requestInfo
     if (override) {
       setRequestHeader.call(this, header, value);
     } else {
-    	//if this is the first header being added, create an empty object to record headers
+      //if this is the first header being added, create an empty object to record headers
       if (!this.requestInfo.options.headers) {
         this.requestInfo.options.headers = {};
       }
@@ -57,7 +61,7 @@ const spyUrl = 'http://localhost:9999/report';
       this.requestInfo.options.headers[header] = value;
       //call the original setHeaderRequest method
       setRequestHeader.call(this, header, value);
-      console.log(this.requestInfo.options.headers);
+      console.log('updated headers', this.requestInfo.options.headers);
     }
   }
 })(XMLHttpRequest.prototype.setRequestHeader);

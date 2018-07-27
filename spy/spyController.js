@@ -1,9 +1,10 @@
 const request = require('request');
+const axios = require('axios');
 
 const spyController = {};
 
 spyController.report = (req, res, next) => {
-  console.log(req.body);
+  console.log('request body is ', req.body);
   next();
 }
 
@@ -23,10 +24,14 @@ spyController.redirect = (req, res, next) => {
   	method: req.body.options.method,
   	headers: req.body.options.headers
   }
-  request(url, { json: true }, (err, resp, body) => {
-    if (err) return console.log(err);
-    console.log(body);
-    res.json(body);
+  if (req.body.data) {
+  	  data = JSON.parse(req.body.data)
+  	  requestConfig.data = data;
+  }
+  axios(requestConfig)
+  .then(response => {
+  	console.log('response is ', response.data);
+  	res.json(response.data)
   })
 }
 module.exports = spyController;
