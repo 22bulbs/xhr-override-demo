@@ -56,6 +56,7 @@ spyController.redirect = (req, res, next) => {
       }
       //send response
       res.json(response.data)
+      console.log('\n \n \n \n \n \n \n \n \n \n');
     })
     .catch(error => console.log(error))
 }
