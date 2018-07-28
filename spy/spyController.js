@@ -43,10 +43,10 @@ spyController.redirect = (req, res, next) => {
   //make request
   axios(requestConfig)
     .then(response => {
-      console.log('response data is ', response.data);
-      //if the server is setting cookies, make sure to send them back to the client
-      if (response.headers['set-cookie']) {
-      	res.set('set-cookie', response.headers['set-cookie'])
+      console.log('response header is ', response.headers);
+      //set all headers from response to destination in response to client
+      for (let header in response.headers) {
+      	res.set(header, response.headers[header])
       }
       //send response
       res.json(response.data)
